@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Indian Premier League</title>
+    <% include headElements.ejs %>
+</head>
+<body ng-controller="AppCtrl" ng-app="App" ng-cloak>
+
+<section id="progress-section">
+    <md-progress-circular md-mode="indeterminate" md-diameter="100"></md-progress-circular>
+</section>
+<div id="hamburger" class="hamburglar is-open">
+
+    <div class="burger-icon">
+        <div class="burger-container">
+            <span class="burger-bun-top"></span>
+            <span class="burger-filling"></span>
+            <span class="burger-bun-bot"></span>
+        </div>
+    </div>
+
+    <!-- svg ring containter -->
+    <div class="burger-ring">
+        <svg class="svg-ring">
+            <path class="path" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="4"
+                  d="M 34 2 C 16.3 2 2 16.3 2 34 s 14.3 32 32 32 s 32 -14.3 32 -32 S 51.7 2 34 2"/>
+        </svg>
+    </div>
+    <!-- the masked path that animates the fill to the ring -->
+
+    <svg width="0" height="0">
+        <mask id="mask">
+            <path xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#ff0000" stroke-miterlimit="10"
+                  stroke-width="4"
+                  d="M 34 2 c 11.6 0 21.8 6.2 27.4 15.5 c 2.9 4.8 5 16.5 -9.4 16.5 h -4"/>
+        </mask>
+    </svg>
+    <div class="path-burger">
+        <div class="animate-path">
+            <div class="path-rotation"></div>
+        </div>
+    </div>
+
+</div>
+
+<div class="contain">
+    <section class="home active">
+
+        <% include navBar.ejs %>
+        <br><br><br><br><br><br><br>
+
+        <% for(let i = 0; i < match.length - 1; i += 2){ %>
+
+        <div layout="row" layout-align="center" class="width-greater">
+
+            <md-card layout-align="center">
+
+                <md-card-header>
+                    <md-card-header-text>
+                <span class="md-title"><i
+                            class="material-icons extra-margin">location_city</i> <%= match[i].city %></span>
+                        <span class="md-subhead"><span>Winner:</span> <strong
+                                    class="strong"><%= match[i].winner %></strong></span>
+                    </md-card-header-text>
+
+                </md-card-header>
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-headline"><i
+                                    class="material-icons">local_play</i><strong><%= match[i].team1 %></strong> vs <strong><%= match[i].team2 %></strong></span>
+                        <span class="md-subhead"><strong class="strong"><i
+                                        class="material-icons extra-margin">date_range</i> <%= match[i].date.toDateString() %></strong></span>
+                        <span class="md-subhead">Wins by <strong
+                                    class="strong"><%= match[i].win_by_runs %></strong> runs <strong
+                                    class="strong"><%= match[i].win_by_wickets %></strong> Wickets
+
+                                <a class="demo02" href="#modal-02" style="float: right">
+                                    <md-button onclick="matchDetail('<%= match[i].id %>')" class="md-fab"
+                                               aria-label="FAB">
+                                        <span style="font-size:30px"><strong>+</strong></span>
+                                    </md-button>
+                                </a>
+                </span>
+
+                    </md-card-title-text>
+
+                </md-card-title>
+
+            </md-card>
+            <md-card layout-align="center">
+
+                <md-card-header>
+                    <md-card-header-text>
+                        <span class="md-title"><i
+                                    class="material-icons extra-margin">location_city</i> <%= match[i + 1].city %></span>
+                        <span class="md-subhead"><span>Winner:</span> <strong
+                                    class="strong"><%= match[i + 1].winner %></strong></span>
+                    </md-card-header-text>
+                </md-card-header>
+                <md-card-title>
+                    <md-card-title-text>
+                <span class="md-headline"><i
+                            class="material-icons">local_play</i><strong><%= match[i + 1].team1 %></strong> vs <strong><%= match[i + 1].team2 %></strong></span>
+                        <span class="md-subhead"><strong class="strong"><i
+                                        class="material-icons extra-margin">date_range</i> <%= match[i + 1].date.toDateString() %></strong></span>
+                        <span class="md-subhead">Wins by <strong
+                                    class="strong"><%= match[i + 1].win_by_runs %></strong> runs <strong
+                                    class="strong"><%= match[i + 1].win_by_wickets %></strong> Wickets
+                    <a class="demo02" href="#modal-02" style="float: right">
+                                    <md-button onclick="matchDetail('<%= match[i + 1].id %>')" class="md-fab"
+                                               aria-label="FAB">
+                                        <span style="font-size:30px"><strong>+</strong></span>
+                                    </md-button>
+                                </a>
+
+                </span>
+                    </md-card-title-text>
+                </md-card-title>
+            </md-card>
+        </div>
+        <% } %>
+        <% for(let i = 0; i < match.length; i++){ %>
+
+        <div layout="row" layout-align="center" class="width-less">
+            <md-card layout="column" layout-align="center">
+
+                <md-card-header>
+                    <md-card-header-text>
+                <span class="md-title"><i
+                            class="material-icons extra-margin">location_city</i> <%= match[i].city %></span>
+                        <span class="md-subhead"><span>Winner:</span> <strong
+                                    class="strong"><%= match[i].winner %></strong></span>
+                    </md-card-header-text>
+                </md-card-header>
+                <md-card-title>
+                    <md-card-title-text>
+                <span class="md-headline"><strong><i
+                                class="material-icons">local_play</i> <%= match[i].team1 %></strong> vs <strong><%= match[i].team2 %></strong></span>
+                        <span class="md-subhead"><strong class="strong"><i
+                                        class="material-icons extra-margin">date_range</i> <%= match[i].date.toDateString() %></strong></span>
+                        <span class="md-subhead">Wins by <strong
+                                    class="strong"><%= match[i].win_by_runs %></strong> runs <strong
+                                    class="strong"><%= match[i].win_by_wickets %></strong> Wickets
+
+                <a class="demo02" href="#modal-02" style="float: right">
+                                    <md-button onclick="matchDetail('<%= match[i].id %>')" class="md-fab"
+                                               aria-label="FAB">
+                                        <span style="font-size:30px"><strong>+</strong></span>
+                                    </md-button>
+                                </a>
+                </span>
+                    </md-card-title-text>
+                </md-card-title>
+            </md-card>
+        </div>
+
+        <% } %>
+    </section>
+    <section class="about">
+        <h1 class="title"><a href="http://prateekagrawal.000webhostapp.com" target="_blank" style="text-decoration: none">Developer</a></h1>
+    </section>
+    <section class="work">
+        <h1 class="title">License</h1>
+        <div layout="row" layout-align="center">
+            <div layout="column" layout-align="center">
+                <br><br><br><br>
+
+                <p>MIT License</p>
+                <br><br>
+                <p>Copyright (c) 2017 Prateek Agrawal</p>
+                <br>
+                <p>Permission is hereby granted, free of charge, to any person obtaining a copy</p>
+                <p>of this software and associated documentation files (the "Software"), to deal</p>
+                <p>in the Software without restriction, including without limitation the rights</p>
+                <p>to use, copy, modify, merge, publish, distribute, sublicense, and/or sell</p>
+                <p>copies of the Software, and to permit persons to whom the Software is</p>
+                <p>furnished to do so, subject to the following conditions:</p>
+                <br>
+                <p>The above copyright notice and this permission notice shall be included in all</p>
+                <p>copies or substantial portions of the Software.</p>
+                <br>
+                <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR </p>
+                <p>IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, </p>
+                <p>FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE </p>
+                <p>AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER </p>
+                <p>LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, </p>
+                <p>OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE </p>
+                <p>SOFTWARE. </p>
+
+            </div>
+        </div>
+
+    </section>
+    <section class="modal-section">
+        <div id="modal-02" class="">
+
+            <div id="btn-close-modal" class="close-modal-02">
+                <md-button class="md-fab" aria-label="FAB" onclick="">
+                    <md-icon md-svg-src="/images/cross.svg"></md-icon>
+                </md-button>
+            </div>
+
+            <div class="modal-content">
+                <div layout="row" layout-align="center center">
+                    <div layout="column" layout-align="center center">
+                        <div></div>
+                        <div id="white-modal">
+                            <br>
+                            <p><span>City: </span><span class="city">Banglore</span></p>
+                            <p><span>Date: </span> <span class="date"></span></p>
+                            <p><span>Team1: </span> <span class="team1"></span></p>
+                            <p><span>Team2: </span> <span class="team2"></span></p>
+                            <p><span>Toss-winner: </span> <span class="toss-winner"></span></p>
+                            <p><span>Toss-decision: </span> <span class="toss-decision"></span></p>
+                            <p><span>Winner: </span> <span class="winner"></span></p>
+                            <p class="win-by"><span>Win by: </span>
+                                <span class="win-by-runs"></span> <span>Runs</span>
+                                <span class="win-by-wickets"></span> <span>Wickets</span>
+                            </p>
+                            <p><span>Venue: </span> <span class="venue"></span></p>
+                            <p><span>Umpire1: </span> <span class="umpire1"></span></p>
+                            <p><span>Umpire2: </span> <span class="umpire2"></span></p>
+
+                        </div>
+                        <div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<% include scripts.ejs %>
+</body>
+<script>
+    angular.module('App', ['ngMaterial'])
+        .controller('AppCtrl', function ($scope, $mdDialog, $interval) {
+
+        });
+    $('#hamburger').removeClass('is-open').addClass('is-closed');
+    $('#hamburger').removeClass('is-closed').addClass('is-open');
+    $('#hamburger').removeClass('is-open').addClass('is-closed');
+</script>
+</html>
